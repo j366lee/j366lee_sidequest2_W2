@@ -39,6 +39,31 @@ let blob3 = {
 // Each platform is an axis-aligned rectangle (AABB)
 let platforms = [];
 
+// Function that draws an expression on an x, y position
+// There are two emotions, default (happy) and strained (unhappy)
+function drawExpression(emotion, x, y) {
+  if (emotion === "default") {
+    stroke(0);
+    fill(0);
+    circle(x - 10, y - 10, 10);
+    circle(x + 10, y - 10, 10);
+    fill(255);
+    circle(x - 9, y - 12, 5);
+    circle(x + 9, y - 12, 5);
+    line(x - 10, y + 2, x, y + 4);
+    line(x + 10, y + 2, x, y + 4);
+  }
+  if (emotion === "strained") {
+    stroke(0);
+    line(x - 15, y - 10, x - 4, y - 8);
+    line(x - 15, y - 6, x - 4, y - 8);
+    line(x + 15, y - 10, x + 4, y - 8);
+    line(x + 15, y - 6, x + 4, y - 8);
+    line(x - 10, y + 4, x, y + 2);
+    line(x + 10, y + 4, x, y + 2);
+  }
+}
+
 function setup() {
   createCanvas(640, 360);
 
@@ -138,6 +163,12 @@ function draw() {
   // --- Draw the animated blob ---
   blob3.t += blob3.tSpeed;
   drawBlobCircle(blob3);
+  // --- Draws expression based on onGround state ---
+  if (blob3.onGround === true) {
+    drawExpression("default", blob3.x, blob3.y);
+  } else {
+    drawExpression("strained", blob3.x, blob3.y);
+  }
 
   // --- HUD ---
   fill(0);
